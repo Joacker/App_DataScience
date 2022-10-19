@@ -1,0 +1,1 @@
+wget https://hub.arcgis.com/datasets/58cbd7c35ad14cfd955b1afa3a2b62fd_0/explore?location=-33.493968%2C-70.682820%2C11.87
