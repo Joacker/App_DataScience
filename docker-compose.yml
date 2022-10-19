@@ -1,0 +1,37 @@
+###############-VERSION-###################
+version: '3.3'
+
+################-SERVICIOS-################
+
+services:
+#################-IA-##########################
+   IA:
+    container_name: IA
+    build: ./IA
+    restart: always
+    ports:
+        - "80:5000"
+    
+###################-SERVIDOR-#########################   
+   servidor:
+    container_name: servidor
+    build: ./backend
+    restart: always
+    volumes:
+      - ./backend:/app/backend
+    ports:
+        - "81:8031"
+    depends_on:
+        - postgres
+
+
+###################-CLIENTE-#########################   
+   cliente:
+     container_name: cliente
+     build: ./frontend
+     restart: always
+     ports:
+         - "79:80"
+     depends_on:
+         - IA
+         - servidor
