@@ -22,7 +22,7 @@ services:
     ports:
         - "81:8031"
     depends_on:
-        - postgres
+        - IA
 
 
 ###################-CLIENTE-#########################   
