@@ -1,12 +1,19 @@
-FROM python:3.9-alpine
+FROM python:3.6-alpine3.7
 
-WORKDIR /IA
+WORKDIR /ia
 
-RUN apk add gcc musl-dev python3-dev libffi-dev openssl-dev
+RUN apk add --no-cache --update \
+    python3 python3-dev gcc \
+    gfortran musl-dev g++ \
+    libffi-dev openssl-dev \
+    libxml2 libxml2-dev \
+    libxslt libxslt-dev \
+    libjpeg-turbo-dev zlib-dev
+
 RUN pip install --upgrade pip
-RUN pip install -r requirements.txt
-RUN pip install -U flask-cors
 
+ADD requirements.txt .
+RUN pip install -r requirements.txt
 COPY . .
 
 EXPOSE 5000

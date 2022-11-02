@@ -4,34 +4,34 @@ version: '3.3'
 ################-SERVICIOS-################
 
 services:
-#################-IA-##########################
-   IA:
-    container_name: IA
-    build: ./IA
+#################-ia-##########################
+   ia:
+    container_name: ia
+    build: ./ia
     restart: always
     ports:
-        - "80:5000"
+        - "5000:80"
     
 ###################-SERVIDOR-#########################   
-   servidor:
-    container_name: servidor
-    build: ./backend
-    restart: always
-    volumes:
-      - ./backend:/app/backend
-    ports:
-        - "81:8031"
-    depends_on:
-        - IA
+#    servidor:
+#     container_name: servidor
+#     build: ./backend
+#     restart: always
+#     volumes:
+#       - ./backend:/app/backend
+#     ports:
+#         - "81:8031"
+#     depends_on:
+#         - IA
 
 
 ###################-CLIENTE-#########################   
-   cliente:
-     container_name: cliente
-     build: ./frontend
-     restart: always
-     ports:
-         - "79:80"
-     depends_on:
-         - IA
-         - servidor
+#    cliente:
+#      container_name: cliente
+#      build: ./frontend
+#      restart: always
+#      ports:
+#          - "79:80"
+#      depends_on:
+#          - IA
+#          - servidor
