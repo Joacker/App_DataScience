@@ -14,7 +14,7 @@ if __name__ == "__main__":
     #print(data['Encoded_comuna'])
     cod = le.classes_
 
-    data.to_csv('./clean/csv_normalize_2018.csv')
+    data.to_csv('../ia/csv_normalize_2018.csv')
 
     
 # le = LabelEncoder()
