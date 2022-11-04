@@ -1,15 +1,25 @@
-FROM python:3.9 as builder
+FROM python:3.10.8-slim-buster as builder
 
-WORKDIR /usr/src/app
+COPY . /app
+WORKDIR /app
 
 RUN pip install --upgrade pip
 
-COPY requirements.txt .
+ADD requirements.txt .
 RUN pip install -r requirements.txt
 
 COPY . .
 
 EXPOSE 5000
+
+FROM python:3.10.8-slim-buster
+COPY . /app
+WORKDIR /app
+
+COPY --from=builder /usr/local/lib/python3.10/site-packages /usr/local/lib/python3.10/site-packages
+COPY --from=builder /usr/local/bin /usr/local/bin
+
+
 
 ENTRYPOINT ["python"]
 CMD ["main.py"]
