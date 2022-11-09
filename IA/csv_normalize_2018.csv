@@ -1,4 +1,4 @@
-,X,Y,FID,Hora,Fecha,Comuna,Cód_Tipo_,Cód_Tipo1,Cód_Zona,Cód_Ubica,Cód_Causa,Cód_Cau_1,Cód_Calza,Cód__Tipo,Cód_Estad,Cód_Condi,Cód_Est_1,Fallecidos,Graves,Menos_Grav,Leves,Encoded_comuna
+ID,X,Y,FID,Hora,Fecha,Comuna,Cód_Tipo_,Cód_Tipo1,Cód_Zona,Cód_Ubica,Cód_Causa,Cód_Cau_1,Cód_Calza,Cód__Tipo,Cód_Estad,Cód_Condi,Cód_Est_1,Fallecidos,Graves,Menos_Grav,Leves,Encoded_comuna
 0,-70.693825,-33.390476,411,00:10:00,2018/01/01 00:00:00+00,RENCA,10,10,1,3,2,51,2,2,1,1,1,0,0,0,1,31
 1,-70.782501,-33.529778,416,00:40:00,2018/01/01 00:00:00+00,MAIPU,31,30,1,1,14,98,1,1,1,1,1,0,0,0,0,20
 2,-70.574142,-33.635532,420,00:57:00,2018/01/01 00:00:00+00,PIRQUE,32,30,1,1,4,24,2,1,1,1,1,0,0,0,1,24
