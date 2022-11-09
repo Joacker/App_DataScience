@@ -1,12 +1,13 @@
-FROM node:14
+FROM node:15-alpine3.13
+
+COPY . /app
 
 WORKDIR /app
 
 COPY . .
 
-RUN npm i
-RUN npm install nodemon --save-dev
+RUN npm install
 
 EXPOSE 8031
 
-CMD ["npm","run","dev"]
+CMD ["npm","start"]
