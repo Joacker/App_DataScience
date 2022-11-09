@@ -16,8 +16,11 @@ app.use(bodyParser.json())
 app.use(cors())
 
 /* VARIABLES */
-var port = process.env.PORT || 8031;
+var port = process.env.PORT || 81;
 
 app.listen(port,()=>{
-    console.log(`Servidor de grpc-app corriendo en: http://localhost:${port}.`)
+    console.log('hola server')
+    console.log('hola server2')
+    console.log('hola server3')
+    console.log(`Servidor corriendo en: http://localhost:${port}.`)
 });

@@ -1,11 +1,12 @@
-FROM node:17.8.0-alpine3.15
+FROM node:14
 
 WORKDIR /app
 
 COPY . .
 
-EXPOSE 8030
-
 RUN npm i
+RUN npm install nodemon --save-dev
 
-CMD ["npm","run","server"]
+EXPOSE 8031
+
+CMD ["npm","run","dev"]

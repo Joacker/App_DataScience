@@ -12,19 +12,21 @@ services:
     ports:
         - "5000:80"
     volumes: 
-        - ./ia:/app
+        - ./IA:/app
     
 ###################-SERVIDOR-#########################   
-#    servidor:
-#     container_name: servidor
-#     build: ./backend
-#     restart: always
-#     volumes:
-#       - ./backend:/app/backend
-#     ports:
-#         - "81:8031"
-#     depends_on:
-#         - IA
+   servidor:
+     container_name: servidor
+     build: ./backend
+     restart: always
+     environment:
+       - CHOKIDAR_USEPOLLING=true
+     volumes:
+       - ./backend:/app
+     ports:
+         - "81:8031"
+     depends_on:
+         - ia
 
 
 ###################-CLIENTE-#########################   
