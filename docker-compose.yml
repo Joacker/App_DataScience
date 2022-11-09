@@ -24,18 +24,18 @@ services:
      volumes:
        - ./backend/src:/app/src
      ports:
-         - "81:8031"
+         - "8000:8031"
      depends_on:
          - ia
 
 
 ###################-CLIENTE-#########################   
-#    cliente:
-#      container_name: cliente
-#      build: ./frontend
-#      restart: always
-#      ports:
-#          - "79:80"
-#      depends_on:
-#          - IA
-#          - servidor
+#   cliente:
+#     container_name: cliente
+#     build: ./frontend
+#     restart: always
+#     ports:
+#         - "79:80"
+#     depends_on:
+#         - ia
+#         - servidor
