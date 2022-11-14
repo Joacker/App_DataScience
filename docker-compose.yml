@@ -30,15 +30,15 @@ services:
 
 
 ###################-CLIENTE-#########################   
-#   cliente:
-#     container_name: cliente
-#     build: ./frontend
-#     restart: always
-#     ports:
-#         - "79:80"
-#     depends_on:
-#         - ia
-#         - servidor
+   cliente:
+     container_name: cliente
+     build: ./app-transit
+     restart: always
+     ports:
+         - "81:3000"
+     depends_on:
+         - ia
+         - servidor
 
 ###################-REDIS_SHARPS-##########################
 #   redis:
