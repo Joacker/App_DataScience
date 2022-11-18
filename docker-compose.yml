@@ -10,7 +10,7 @@ services:
     build: ./IA
     restart: always
     ports:
-        - "5000:80"
+        - "3001:80"
     volumes: 
         - ./IA:/app
     
@@ -39,6 +39,18 @@ services:
      depends_on:
          - ia
          - servidor
+
+###################-POSTGRES-#########################   
+
+   postgres:
+    container_name: postgres
+    restart: always
+    build: ./db
+    volumes:
+        - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+        - "5433:5432"
+
 
 ###################-REDIS_SHARPS-##########################
 #   redis:
