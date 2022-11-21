@@ -1,0 +1,133 @@
+from sklearn.neighbors import KNeighborsClassifier
+from flask import Flask, jsonify, request
+import querys
+
+app = Flask(__name__)
+
+models = []
+
+# CAUSA EN FUNCIÓN DE COMUNA - POS 0
+@app.route('/query0', methods=['POST'])
+def query0():
+    x = request.json['datos']
+
+    pred = models[0].predict([x])
+    prob = models[0].predict_proba([x])
+
+    message = {
+        "Predicción": pred.tolist(),
+        "Distribución de probabilidades": prob.tolist()
+    }
+
+    return jsonify(message)
+
+# COMUNA CON MAYOR PROBABILIDAD DE X FALLECIDOS - POS 1
+@app.route('/query1', methods=['POST'])
+def query1():
+    x = request.json['datos']
+
+    pred = models[1].predict([x])
+    prob = models[1].predict_proba([x])
+
+    message = {
+        "Predicción": pred.tolist(),
+        "Distribución de probabilidades": prob.tolist()
+    }
+
+    return jsonify(message)
+
+# COMUNA MÁS PROBABLE PARA CIERTA CAUSA - POS 2
+@app.route('/query2', methods=['POST'])
+def query2():
+    x = request.json['datos']
+
+    pred = models[2].predict([x])
+    prob = models[2].predict_proba([x])
+
+    message = {
+        "Predicción": pred.tolist(),
+        "Distribución de probabilidades": prob.tolist()
+    }
+
+    return jsonify(message)
+
+# TIPO DE UBICACIÓN EN FUNCIÓN DEL TIPO DE ACCIDENTE Y COMUNA - POS 3
+@app.route('/query3', methods=['POST'])
+def query3():
+    x = request.json['datos']
+
+    pred = models[3].predict([x])
+    prob = models[3].predict_proba([x])
+
+    message = {
+        "Predicción": pred.tolist(),
+        "Distribución de probabilidades": prob.tolist()
+    }
+
+    return jsonify(message)
+
+# ESTADO DE CALZADA EN FUNCIÓN DE X FALLECIDOS - POS 4
+@app.route('/query4', methods=['POST'])
+def query4():
+    x = request.json['datos']
+
+    pred = models[4].predict([x])
+    prob = models[4].predict_proba([x])
+
+    message = {
+        "Predicción": pred.tolist(),
+        "Distribución de probabilidades": prob.tolist()
+    }
+
+    return jsonify(message)
+
+# CLIMA EN FUNCIÓN DE X FALLECIDOS - POS 5
+@app.route('/query5', methods=['POST'])
+def query5():
+    x = request.json['datos']
+
+    pred = models[5].predict([x])
+    prob = models[5].predict_proba([x])
+
+    message = {
+        "Predicción": pred.tolist(),
+        "Distribución de probabilidades": prob.tolist()
+    }
+
+    return jsonify(message)
+
+# CAUSA EN FUNCIÓN DE X FALLECIDOS - POS 6
+@app.route('/query6', methods=['POST'])
+def query6():
+    x = request.json['datos']
+
+    pred = models[6].predict([x])
+    prob = models[6].predict_proba([x])
+
+    message = {
+        "Predicción": pred.tolist(),
+        "Distribución de probabilidades": prob.tolist()
+    }
+
+    return jsonify(message)
+
+# ESTADO DE LA CALLE EN RELACIÓN A UNA COMUNA Y UN TIPO DE CALZADA - POS 7
+@app.route('/query7', methods=['POST'])
+def query7():
+    x = request.json['datos']
+
+    pred = models[7].predict([x])
+    prob = models[7].predict_proba([x])
+
+    message = {
+        "Predicción": pred.tolist(),
+        "Distribución de probabilidades": prob.tolist()
+    }
+
+    return jsonify(message)
+
+if __name__== "__main__":
+    models = querys.querys()
+
+    # API
+    app.run(port=80)
