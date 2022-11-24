@@ -1,10 +1,11 @@
 import React from 'react'
 import { Marker } from 'react-leaflet'
-import {IconLocation} from './IconLocation'
+import { Icon } from 'leaflet'
+import {VenueLocationIcon} from './IconLocation'
 
 const Markers = () => {
   return (
-    <Marker position={{lat: '-33.435841', lng: '-70.680244'}} icon={IconLocation} />
+    <Marker position={{lat: '-33.435841', lng: '-70.680244'}} icon={VenueLocationIcon} />
   )
 }
 

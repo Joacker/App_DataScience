@@ -8,10 +8,9 @@ if __name__ == "__main__":
     data = pd.read_csv(PATH, delimiter=';',encoding='utf-8')
     print((data.loc[:,'Fecha'][0]).split("/"))
     for i in range(len(data)):
-        data.loc[i,'Fecha'] = (data.loc[i,'Fecha']).split("/")[1]
-    print((data.loc[:,'Fecha']))
+        data['Encoded_mes'] = (data.loc[i,'Fecha']).split("/")[1]
+    #print((data.loc[:,'Fecha']))
     
-    data['Encoded_mes'] = (data.loc[:,'Fecha'])
     le = LabelEncoder()
     data['Encoded_comuna'] = le.fit_transform(data['Comuna'])
 
