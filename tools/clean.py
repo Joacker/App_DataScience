@@ -2,10 +2,10 @@ import csv
 import pandas as pd
 from sklearn.preprocessing import LabelEncoder
 
-PATH = './clean/2018_Columna.csv'
+PATH = './preview/2018_gud.csv'
 
 if __name__ == "__main__":
-    data = pd.read_csv(PATH, delimiter=';')
+    data = pd.read_csv(PATH, delimiter=';',encoding='utf-8')
     print((data.loc[:,'Fecha'][0]).split("/"))
     for i in range(len(data)):
         data.loc[i,'Fecha'] = (data.loc[i,'Fecha']).split("/")[1]
@@ -18,7 +18,7 @@ if __name__ == "__main__":
     #print(data['Encoded_comuna'])
     cod = le.classes_
 
-    data.to_csv('../ia/csv_normalize_2018v2.csv')
+    data.to_csv('../ia/csv_normalize_2018v3.csv')
     #print(data['Encoded_mes'])
     #cod = le.classes_
 
