@@ -8,8 +8,8 @@ if __name__ == "__main__":
     data = pd.read_csv(PATH, delimiter=';',encoding='utf-8')
     print((data.loc[:,'Fecha'][0]).split("/"))
     for i in range(len(data)):
-        data['Encoded_mes'] = (data.loc[i,'Fecha']).split("/")[1]
-    #print((data.loc[:,'Fecha']))
+        data.loc[i,'Encoded_mes'] = (data.loc[i,'Fecha']).split("/")[1]
+    print((data.loc[:,'Fecha']))
     
     le = LabelEncoder()
     data['Encoded_comuna'] = le.fit_transform(data['Comuna'])
@@ -20,8 +20,6 @@ if __name__ == "__main__":
     data.to_csv('../ia/csv_normalize_2018v3.csv')
     #print(data['Encoded_mes'])
     #cod = le.classes_
-
-    #data.to_csv('../ia/csv_normalize_2018.csv')
 
     
 # le = LabelEncoder()
