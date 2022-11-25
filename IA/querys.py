@@ -1,6 +1,7 @@
 import pandas as pd
 import modelo
 
+
 def querys():
     dataframe = pd.read_csv(r"./csv_normalize_2018.csv",sep=',')
     
@@ -12,12 +13,24 @@ def querys():
     # CAUSA EN FUNCIÓN DE COMUNA - POS 0
     x = dataframe[['Encoded_comuna']].values
     y = dataframe['Cód_Causa'].values
+
+
+    #print("causas:"+str(y))
+    # from itertools import groupby
+    # from operator import itemgetter
+    # y.sorted(y, 
+    #             key=key)
     pred.append(modelo.KNN(x, y))
+
+    # ints_list2 = list(dict.fromkeys(y))
+    # print(ints_list2)
 
     print("Modelo 1")
     # COMUNA CON MAYOR PROBABILIDAD DE X FALLECIDOS - POS 1
     x = dataframe[['Fallecidos']].values
     y = dataframe['Encoded_comuna'].values
+
+
     pred.append(modelo.KNN(x, y))
 
     print("Modelo 2")
@@ -55,5 +68,6 @@ def querys():
     x = dataframe[['Encoded_comuna', 'Cód__Tipo']].values
     y = dataframe['Cód_Estad'].values
     pred.append(modelo.KNN(x, y))
+
 
     return pred

@@ -3,20 +3,41 @@ from flask import Flask, jsonify, request
 import querys
 
 app = Flask(__name__)
+app.config['JSON_SORT_KEYS'] = False
 
 models = []
+
+id_prob = {}
+
+def lexNumbers(n):
+    s = []
+    for i in range(1, n + 1):
+        s.append(str(i))   
+    s.sort()
+    ans = []
+    for i in range(n):
+        ans.append(int(s[i]))
+    return ans
 
 # CAUSA EN FUNCIÓN DE COMUNA - POS 0
 @app.route('/query0', methods=['POST'])
 def query0():
     x = request.json['datos']
-
+    print(x)
     pred = models[0].predict([x])
     prob = models[0].predict_proba([x])
 
+    probabilities = {}
+    lex_numbers = lexNumbers(len(prob[0]))
+
+    for index, number in enumerate(lex_numbers):
+        probabilities[number] = prob[0][index]
+
     message = {
-        "Predicción": pred.tolist(),
-        "Distribución de probabilidades": prob.tolist()
+        "prediction": pred.tolist(),
+        "dp": probabilities,
+        #"Distribución de probabilidades": prob.tolist(),
+        "id":lex_numbers
     }
 
     return jsonify(message)
@@ -126,8 +147,13 @@ def query7():
 
     return jsonify(message)
 
+@app.route('/', methods=['GET'])
+def index():
+    return "<h1>API</h1>"
+
+
 if __name__== "__main__":
     models = querys.querys()
 
     # API
-    app.run(port=80)
+    app.run(host='0.0.0.0', port=80, debug = True, threaded = True)

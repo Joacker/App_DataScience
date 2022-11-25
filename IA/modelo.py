@@ -22,11 +22,11 @@ def mejor_pres(x, y):
 def KNN(x, y):
     scaler = MinMaxScaler()
     x = scaler.fit_transform(x)
-
+    #print(len(x))
+    #print(y)
     # MEJOR VALOR DE K
-    # k = mejor_pres(x, y)
+    #k = mejor_pres(x, y)
     k = 12
-
     # CLASIFICACIÓN
     knn = KNeighborsClassifier(k)
     knn.fit(x, y)

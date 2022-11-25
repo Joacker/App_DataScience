@@ -1,6 +1,6 @@
 FROM postgres:alpine
-COPY csv_normalize_2018.csv .
-RUN mv csv_normalize_2018.csv /var/lib/postgresql/data
+COPY csv_normalize_2018v3.csv .
+RUN mv csv_normalize_2018v3.csv /var/lib/postgresql/data
 COPY . .
 
 EXPOSE 5432
