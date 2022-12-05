@@ -1,4 +1,4 @@
-FROM postgres:alpine
+FROM postgres:15-alpine
 COPY csv_normalize_2018v3.csv .
 RUN mv csv_normalize_2018v3.csv /var/lib/postgresql/data
 COPY . .
