@@ -3,7 +3,7 @@ import modelo
 
 
 def querys():
-    dataframe = pd.read_csv(r"./csv_normalize_2018.csv",sep=',')
+    dataframe = pd.read_csv(r"./csv_normalize_2018v2.csv",sep=',')
     
     pred = []
 
@@ -13,13 +13,6 @@ def querys():
     # CAUSA EN FUNCIÓN DE COMUNA - POS 0
     x = dataframe[['Encoded_comuna']].values
     y = dataframe['Cód_Causa'].values
-
-
-    #print("causas:"+str(y))
-    # from itertools import groupby
-    # from operator import itemgetter
-    # y.sorted(y, 
-    #             key=key)
     pred.append(modelo.KNN(x, y))
 
     # ints_list2 = list(dict.fromkeys(y))
@@ -29,8 +22,6 @@ def querys():
     # COMUNA CON MAYOR PROBABILIDAD DE X FALLECIDOS - POS 1
     x = dataframe[['Fallecidos']].values
     y = dataframe['Encoded_comuna'].values
-
-
     pred.append(modelo.KNN(x, y))
 
     print("Modelo 2")
@@ -69,5 +60,22 @@ def querys():
     y = dataframe['Cód_Estad'].values
     pred.append(modelo.KNN(x, y))
 
+    print("Modelo 8")
+    # EN FUNCIÓN DEL MES DETERMINA CAUSA
+    x = dataframe[['Encoded_mes']].values
+    y = dataframe['Cód_Causa'].values
+    pred.append(modelo.KNN(x, y))
+
+    print("Modelo 9")
+    # EN FUNCIÓN DEL MES DETERMINA COMUNA
+    x = dataframe[['Encoded_mes']].values
+    y = dataframe['Encoded_comuna'].values
+    pred.append(modelo.KNN(x, y))
+
+    print("Modelo 10")
+    # EN FUNCIÓN DEL MES DETERMINA CLIMA
+    x = dataframe[['Encoded_mes']].values
+    y = dataframe['Cód_Est_1'].values
+    pred.append(modelo.KNN(x, y))
 
     return pred

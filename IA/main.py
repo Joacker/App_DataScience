@@ -147,6 +147,52 @@ def query7():
 
     return jsonify(message)
 
+# EN FUNCIÓN DEL MES DETERMINA CAUSA
+@app.route('/query8', methods=['POST'])
+def query8():
+    x = request.json['datos']
+
+    pred = models[8].predict([x])
+    prob = models[8].predict_proba([x])
+
+    message = {
+        "Predicción": pred.tolist(),
+        "Distribución de probabilidades": prob.tolist()
+    }
+
+    return jsonify(message)
+
+# EN FUNCIÓN DEL MES DETERMINA COMUNA
+@app.route('/query9', methods=['POST'])
+def query9():
+    x = request.json['datos']
+
+    pred = models[9].predict([x])
+    prob = models[9].predict_proba([x])
+
+    message = {
+        "Predicción": pred.tolist(),
+        "Distribución de probabilidades": prob.tolist()
+    }
+
+    return jsonify(message)
+
+# EN FUNCIÓN DEL MES DETERMINA CLIMA
+@app.route('/query9', methods=['POST'])
+def query10():
+    x = request.json['datos']
+
+    pred = models[10].predict([x])
+    prob = models[10].predict_proba([x])
+
+    message = {
+        "Predicción": pred.tolist(),
+        "Distribución de probabilidades": prob.tolist()
+    }
+
+    return jsonify(message)
+
+
 @app.route('/', methods=['GET'])
 def index():
     return "<h1>API</h1>"

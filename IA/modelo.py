@@ -24,9 +24,10 @@ def KNN(x, y):
     x = scaler.fit_transform(x)
     #print(len(x))
     #print(y)
+    
     # MEJOR VALOR DE K
-    #k = mejor_pres(x, y)
-    k = 12
+    k = mejor_pres(x, y)
+
     # CLASIFICACIÓN
     knn = KNeighborsClassifier(k)
     knn.fit(x, y)
