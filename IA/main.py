@@ -50,9 +50,17 @@ def query1():
     pred = models[1].predict([x])
     prob = models[1].predict_proba([x])
 
+    probabilities = {}
+    lex_numbers = lexNumbers(len(prob[0]))
+
+    for index, number in enumerate(lex_numbers):
+        probabilities[number] = prob[0][index]
+
     message = {
-        "Predicción": pred.tolist(),
-        "Distribución de probabilidades": prob.tolist()
+        "prediction": pred.tolist(),
+        "dp": probabilities,
+        #"Distribución de probabilidades": prob.tolist(),
+        "id":lex_numbers
     }
 
     return jsonify(message)
@@ -65,9 +73,17 @@ def query2():
     pred = models[2].predict([x])
     prob = models[2].predict_proba([x])
 
+    probabilities = {}
+    lex_numbers = lexNumbers(len(prob[0]))
+
+    for index, number in enumerate(lex_numbers):
+        probabilities[number] = prob[0][index]
+
     message = {
-        "Predicción": pred.tolist(),
-        "Distribución de probabilidades": prob.tolist()
+        "prediction": pred.tolist(),
+        "dp": probabilities,
+        #"Distribución de probabilidades": prob.tolist(),
+        "id":lex_numbers
     }
 
     return jsonify(message)
@@ -80,9 +96,17 @@ def query3():
     pred = models[3].predict([x])
     prob = models[3].predict_proba([x])
 
+    probabilities = {}
+    lex_numbers = lexNumbers(len(prob[0]))
+
+    for index, number in enumerate(lex_numbers):
+        probabilities[number] = prob[0][index]
+
     message = {
-        "Predicción": pred.tolist(),
-        "Distribución de probabilidades": prob.tolist()
+        "prediction": pred.tolist(),
+        "dp": probabilities,
+        #"Distribución de probabilidades": prob.tolist(),
+        "id":lex_numbers
     }
 
     return jsonify(message)
@@ -95,9 +119,17 @@ def query4():
     pred = models[4].predict([x])
     prob = models[4].predict_proba([x])
 
+    probabilities = {}
+    lex_numbers = lexNumbers(len(prob[0]))
+
+    for index, number in enumerate(lex_numbers):
+        probabilities[number] = prob[0][index]
+
     message = {
-        "Predicción": pred.tolist(),
-        "Distribución de probabilidades": prob.tolist()
+        "prediction": pred.tolist(),
+        "dp": probabilities,
+        #"Distribución de probabilidades": prob.tolist(),
+        "id":lex_numbers
     }
 
     return jsonify(message)
@@ -110,9 +142,17 @@ def query5():
     pred = models[5].predict([x])
     prob = models[5].predict_proba([x])
 
+    probabilities = {}
+    lex_numbers = lexNumbers(len(prob[0]))
+
+    for index, number in enumerate(lex_numbers):
+        probabilities[number] = prob[0][index]
+
     message = {
-        "Predicción": pred.tolist(),
-        "Distribución de probabilidades": prob.tolist()
+        "prediction": pred.tolist(),
+        "dp": probabilities,
+        #"Distribución de probabilidades": prob.tolist(),
+        "id":lex_numbers
     }
 
     return jsonify(message)
@@ -125,9 +165,17 @@ def query6():
     pred = models[6].predict([x])
     prob = models[6].predict_proba([x])
 
+    probabilities = {}
+    lex_numbers = lexNumbers(len(prob[0]))
+
+    for index, number in enumerate(lex_numbers):
+        probabilities[number] = prob[0][index]
+
     message = {
-        "Predicción": pred.tolist(),
-        "Distribución de probabilidades": prob.tolist()
+        "prediction": pred.tolist(),
+        "dp": probabilities,
+        #"Distribución de probabilidades": prob.tolist(),
+        "id":lex_numbers
     }
 
     return jsonify(message)
@@ -140,9 +188,17 @@ def query7():
     pred = models[7].predict([x])
     prob = models[7].predict_proba([x])
 
+    probabilities = {}
+    lex_numbers = lexNumbers(len(prob[0]))
+
+    for index, number in enumerate(lex_numbers):
+        probabilities[number] = prob[0][index]
+
     message = {
-        "Predicción": pred.tolist(),
-        "Distribución de probabilidades": prob.tolist()
+        "prediction": pred.tolist(),
+        "dp": probabilities,
+        #"Distribución de probabilidades": prob.tolist(),
+        "id":lex_numbers
     }
 
     return jsonify(message)
@@ -155,9 +211,17 @@ def query8():
     pred = models[8].predict([x])
     prob = models[8].predict_proba([x])
 
+    probabilities = {}
+    lex_numbers = lexNumbers(len(prob[0]))
+
+    for index, number in enumerate(lex_numbers):
+        probabilities[number] = prob[0][index]
+
     message = {
-        "Predicción": pred.tolist(),
-        "Distribución de probabilidades": prob.tolist()
+        "prediction": pred.tolist(),
+        "dp": probabilities,
+        #"Distribución de probabilidades": prob.tolist(),
+        "id":lex_numbers
     }
 
     return jsonify(message)
@@ -170,9 +234,17 @@ def query9():
     pred = models[9].predict([x])
     prob = models[9].predict_proba([x])
 
+    probabilities = {}
+    lex_numbers = lexNumbers(len(prob[0]))
+
+    for index, number in enumerate(lex_numbers):
+        probabilities[number] = prob[0][index]
+
     message = {
-        "Predicción": pred.tolist(),
-        "Distribución de probabilidades": prob.tolist()
+        "prediction": pred.tolist(),
+        "dp": probabilities,
+        #"Distribución de probabilidades": prob.tolist(),
+        "id":lex_numbers
     }
 
     return jsonify(message)
@@ -185,9 +257,17 @@ def query10():
     pred = models[10].predict([x])
     prob = models[10].predict_proba([x])
 
+    probabilities = {}
+    lex_numbers = lexNumbers(len(prob[0]))
+
+    for index, number in enumerate(lex_numbers):
+        probabilities[number] = prob[0][index]
+
     message = {
-        "Predicción": pred.tolist(),
-        "Distribución de probabilidades": prob.tolist()
+        "prediction": pred.tolist(),
+        "dp": probabilities,
+        #"Distribución de probabilidades": prob.tolist(),
+        "id":lex_numbers
     }
 
     return jsonify(message)

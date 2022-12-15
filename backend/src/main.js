@@ -122,6 +122,160 @@ app.post("/query0", (req, res, next) => {
     
 });
 
+app.post("/query1", (req, res, next) => {
+    let safe = {}
+    res.header("Access-Control-Allow-Origin","*");
+    const { datos, comuna } = req.body;
+    fetch(`http://ia:80/query1`, {
+        method:"POST",
+        headers:{
+            "Content-Type": "application/json",
+            'Accept': 'application/json',
+        },
+        body:JSON.stringify({
+            datos:datos
+        }),
+    })
+    .then(response => response.json())
+    .then( async (data) => {
+
+        const SQLquery = `SELECT 
+                                encoded_comuna,
+                                comuna 
+                            FROM 
+                                siniestros_2018
+                            WHERE
+                                encoded_comuna = $1
+                            group by 
+                                encoded_comuna,
+                                comuna`
+
+        safe = data;
+        console.log(safe)
+        let dp1 = {}
+        const response = []
+        for (let i = 0; i < data["id"].length; i++) {
+            response.push(await client.query(SQLquery, [data["id"][i]]))
+            //console.log(response)
+            const output = (response[i].rows[0]["comuna"])
+            console.log(i + output)
+            dp1[output] = data["dp"][i]
+            //console.log(data["dp"][i])
+            
+        }
+        console.log(dp1)
+        res.send({dp1})
+    })
+    .catch(error => {
+        console.log(error);
+    });
+
+});
+
+//*************** 
+//     SEBA
+//*************** 
+app.post("/query2", (req, res, next) => {
+    let safe = {}
+    res.header("Access-Control-Allow-Origin","*");
+    const { datos, comuna } = req.body;
+    fetch(`http://ia:80/query2`, {
+        method:"POST",
+        headers:{
+            "Content-Type": "application/json",
+            'Accept': 'application/json',
+        },
+        body:JSON.stringify({
+            datos:datos
+        }),
+    })
+    .then(response => response.json())
+    .then( async (data) => {
+
+        const SQLquery = `SELECT 
+                                comuna,
+                                encoded_comuna
+                            FROM 
+                                siniestros_2018
+                            WHERE
+                                encoded_comuna = $1
+                            group by 
+                                encoded_comuna,
+                                comuna`
+
+        safe = data;
+        console.log(safe)
+        let dp1 = {}
+        const response = []
+        for (let i = 1; i < data["id"].length+1; i++) {
+            response.push(await client.query(SQLquery, [data["id"][i-1]]))
+            //console.log(response)
+            const output = (response[i-1].rows[0]["comuna"])
+            dp1[output] = data["dp"][i]
+            //console.log(data["dp"][i])
+            
+        }
+        console.log(dp1)
+        res.send({dp1})
+    })
+    .catch(error => {
+        console.log(error);
+    });
+});
+//*************** 
+//     SEBA
+//*************** 
+
+app.post("/query3", (req, res, next) => {
+    let safe = {}
+    res.header("Access-Control-Allow-Origin","*");
+    const { datos, comuna } = req.body;
+    fetch(`http://ia:80/query3`, {
+        method:"POST",
+        headers:{
+            "Content-Type": "application/json",
+            'Accept': 'application/json',
+        },
+        body:JSON.stringify({
+            datos:datos
+        }),
+    })
+    .then(response => response.json())
+    .then( async (data) => {
+
+        const SQLquery = `SELECT 
+                                cód_ubica,
+                                ubicación
+                            FROM 
+                                siniestros_2018
+                            WHERE
+                                cód__tipo = $1
+                            AND
+                                encoded_comuna = $2
+                            group by 
+                                cód_ubica,
+                                ubicación`
+
+        safe = data;
+        console.log(safe)
+        let dp1 = {}
+        const response = []
+        for (let i = 1; i < data["id"].length+1; i++) {
+            response.push(await client.query(SQLquery, [data["id"][i-1]]))
+            //console.log(response)
+            const output = (response[i-1].rows[0]["ubicación"])
+            dp1[output] = data["dp"][i]
+            //console.log(data["dp"][i])
+            
+        }
+        console.log(dp1)
+        res.send({dp1})
+    })
+    .catch(error => {
+        console.log(error);
+    });
+});
+
 app.listen(port,()=>{
     console.log(`Servidor corriendo en: http://localhost:${port}.`)
 });
