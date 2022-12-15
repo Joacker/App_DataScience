@@ -19,6 +19,17 @@ def lexNumbers(n):
         ans.append(int(s[i]))
     return ans
 
+def lexNumbers0(n):
+    s = []
+    for i in range(0, n):
+        s.append(str(i))   
+    s.sort()
+    ans = []
+    for i in range(n):
+        ans.append(int(s[i]))
+    return ans
+
+
 # CAUSA EN FUNCIÓN DE COMUNA - POS 0
 @app.route('/query0', methods=['POST'])
 def query0():
@@ -51,7 +62,7 @@ def query1():
     prob = models[1].predict_proba([x])
 
     probabilities = {}
-    lex_numbers = lexNumbers(len(prob[0]))
+    lex_numbers = lexNumbers0(len(prob[0]))
 
     for index, number in enumerate(lex_numbers):
         probabilities[number] = prob[0][index]

@@ -158,7 +158,7 @@ app.post("/query1", (req, res, next) => {
             response.push(await client.query(SQLquery, [data["id"][i]]))
             //console.log(response)
             const output = (response[i].rows[0]["comuna"])
-            console.log(i + output)
+            console.log(data["id"][i] + output)
             dp1[output] = data["dp"][i]
             //console.log(data["dp"][i])
             
