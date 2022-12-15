@@ -158,7 +158,7 @@ app.post("/query1", (req, res, next) => {
             response.push(await client.query(SQLquery, [data["id"][i]]))
             //console.log(response)
             const output = (response[i].rows[0]["comuna"])
-            console.log(data["id"][i] + output)
+            //console.log(data["id"][i] + output)
             dp1[output] = data["dp"][i]
             //console.log(data["dp"][i])
             
@@ -207,10 +207,10 @@ app.post("/query2", (req, res, next) => {
         console.log(safe)
         let dp1 = {}
         const response = []
-        for (let i = 1; i < data["id"].length+1; i++) {
-            response.push(await client.query(SQLquery, [data["id"][i-1]]))
+        for (let i = 0; i < data["id"].length; i++) {
+            response.push(await client.query(SQLquery, [data["id"][i]]))
             //console.log(response)
-            const output = (response[i-1].rows[0]["comuna"])
+            const output = (response[i].rows[0]["comuna"])
             dp1[output] = data["dp"][i]
             //console.log(data["dp"][i])
             

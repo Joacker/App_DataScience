@@ -85,7 +85,7 @@ def query2():
     prob = models[2].predict_proba([x])
 
     probabilities = {}
-    lex_numbers = lexNumbers(len(prob[0]))
+    lex_numbers = lexNumbers0(len(prob[0]))
 
     for index, number in enumerate(lex_numbers):
         probabilities[number] = prob[0][index]
