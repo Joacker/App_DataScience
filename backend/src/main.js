@@ -50,6 +50,7 @@ app.get("/api", (req, res, next) => {
 });
 
 app.post("/query0", (req, res, next) => {
+    client.connect()
     let safe = {}
     res.header("Access-Control-Allow-Origin","*");
     const { datos, comuna } = req.body;
@@ -82,6 +83,7 @@ app.post("/query0", (req, res, next) => {
         let dp1 = {}
         const response = []
         for (let i = 1; i < data["id"].length+1; i++) {
+            console.log(data["id"][i-1])
             response.push(await client.query(SQLquery, [data["id"][i-1]]))
             //console.log(response)
             const output = (response[i-1].rows[0]["causa__con"])
@@ -275,6 +277,105 @@ app.post("/query3", (req, res, next) => {
         console.log(error);
     });
 });
+
+app.post("/query4", (req, res, next) => {
+    let safe = {}
+    res.header("Access-Control-Allow-Origin","*");
+    const { datos, comuna } = req.body;
+    fetch(`http://ia:80/query4`, {
+        method:"POST",
+        headers:{
+            "Content-Type": "application/json",
+            'Accept': 'application/json',
+        },
+        body:JSON.stringify({
+            datos:datos
+        }),
+    })
+    .then(response => response.json())
+    .then( async (data) => {
+
+        const SQLquery = `SELECT 
+                                cód_estad,
+                                estado_cal
+                            FROM 
+                                siniestros_2018
+                            WHERE
+                                cód_estad = $1
+                            group by 
+                                cód_estad,
+                                estado_cal`
+
+        safe = data;
+        console.log(safe)
+        let dp1 = {}
+        const response = []
+        for (let i = 0; i < data["id"].length; i++) {
+            response.push(await client.query(SQLquery, [data["id"][i]]))
+            //console.log(response)
+            const output = (response[i].rows[0]["estado_cal"])
+            dp1[output] = data["dp"][i]
+            //console.log(data["dp"][i])
+            
+        }
+        console.log(dp1)
+        res.send({dp1})
+    })
+    .catch(error => {
+        console.log(error);
+    });
+});
+
+app.post("/query5", (req, res, next) => {
+    let safe = {}
+    res.header("Access-Control-Allow-Origin","*");
+    const { datos, comuna } = req.body;
+    fetch(`http://ia:80/query1`, {
+        method:"POST",
+        headers:{
+            "Content-Type": "application/json",
+            'Accept': 'application/json',
+        },
+        body:JSON.stringify({
+            datos:datos
+        }),
+    })
+    .then(response => response.json())
+    .then( async (data) => {
+
+        const SQLquery = `SELECT 
+                                cód_est_1,
+                                estado_atm 
+                            FROM 
+                                siniestros_2018
+                            WHERE
+                                cód_est_1 = $1
+                            group by 
+                                cód_est_1,
+                                estado_atm`
+
+        safe = data;
+        console.log(safe)
+        let dp1 = {}
+        const response = []
+        for (let i = 0; i < data["id"].length; i++) {
+            response.push(await client.query(SQLquery, [data["id"][i]]))
+            console.log(response[i].rows[0]["estado_atm"])
+            const output = (response[i].rows[0]["estado_atm"])
+            //console.log(data["id"][i] + output)
+            dp1[output] = data["dp"][i]
+            //console.log(data["dp"][i])
+            
+        }
+        console.log(dp1)
+        res.send({dp1})
+    })
+    .catch(error => {
+        console.log(error);
+    });
+
+});
+
 
 app.listen(port,()=>{
     console.log(`Servidor corriendo en: http://localhost:${port}.`)
