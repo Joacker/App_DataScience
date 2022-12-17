@@ -361,8 +361,8 @@ app.post("/query5", (req, res, next) => {
     client.connect()
     let safe = {}
     res.header("Access-Control-Allow-Origin","*");
-    const { datos, comuna } = req.body;
-    fetch(`http://ia:80/query1`, {
+    const { datos } = req.body;
+    fetch(`http://ia:80/query5`, {
         method:"POST",
         headers:{
             "Content-Type": "application/json",
