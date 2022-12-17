@@ -35,9 +35,9 @@ services:
      build: ./app-transit
      restart: always
      ports:
-         - "81:3000"
+         - "3000:3000"
      volumes:
-        - ./app-transit:/app
+        - ./app-transit/src:/app/src
      depends_on:
          - ia
          - servidor
