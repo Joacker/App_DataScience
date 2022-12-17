@@ -395,7 +395,7 @@ app.post("/query5", (req, res, next) => {
             console.log(response[i].rows[0]["estado_atm"])
             const output = (response[i].rows[0]["estado_atm"])
             //console.log(data["id"][i] + output)
-            dp1[output] = data["dp"][i]
+            dp1[output] = data["dp"][i+1]
             //console.log(data["dp"][i])
             
         }
