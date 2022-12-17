@@ -18,6 +18,7 @@ function App() {
         <Route path="/reports" component={Reports} />
         <Route path="/stats" component={Stats} />
         <Route path="/config" component={Config} />
+        <Route path="/mapa" component={Mapa} />
       </Routes>
       </Router>
     </>
