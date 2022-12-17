@@ -1,11 +1,11 @@
-FROM node:16.6.1-alpine3.14 AS builder
+FROM node:18-alpine3.15
 
-WORKDIR /app-transit
-
-COPY package*.json ./
-RUN npm ci --only=production
+WORKDIR /app
 
 COPY . .
 
 RUN npm install
+
+EXPOSE 3000
+
 CMD ["npm","start"]
