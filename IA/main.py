@@ -246,7 +246,7 @@ def query9():
     prob = models[9].predict_proba([x])
 
     probabilities = {}
-    lex_numbers = lexNumbers(len(prob[0]))
+    lex_numbers = lexNumbers0(len(prob[0]))
 
     for index, number in enumerate(lex_numbers):
         probabilities[number] = prob[0][index]
@@ -261,7 +261,7 @@ def query9():
     return jsonify(message)
 
 # EN FUNCIÓN DEL MES DETERMINA CLIMA
-@app.route('/query9', methods=['POST'])
+@app.route('/query10', methods=['POST'])
 def query10():
     x = request.json['datos']
 
