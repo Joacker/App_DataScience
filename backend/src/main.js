@@ -80,18 +80,54 @@ app.post("/query0", (req, res, next) => {
         safe = data;
         console.log(safe)
         let dp1 = {}
+        //console.log("impimiendoasd weas,",data[0]["dp"])
         const response = []
-        for (let i = 1; i < data["id"].length+1; i++) {
-            console.log(data["id"][i-1])
-            response.push(await client.query(SQLquery, [data["id"][i-1]]))
+        for (let i = 1; i < data[0]["id"].length+1; i++) {
+            console.log(data[0]["id"][i-1])
+            response.push(await client.query(SQLquery, [data[0]["id"][i-1]]))
             //console.log(response)
             const output = (response[i-1].rows[0]["causa__con"])
-            dp1[output] = data["dp"][i]
+            dp1[output] = data[0]["dp"][i]
             //console.log(data["dp"][i])
             
         }
-        console.log(dp1)
-        res.send({dp1})
+        //console.log(dp1)
+        //console.log("prueba impresión de response: ",response[1].rows[0]["cód_causa"]);
+        const sql = `SELECT 
+                            x, y 
+                        FROM 
+                             siniestros_2018 
+                       WHERE 
+                             encoded_comuna = $1
+                       AND
+                             cód_causa = $2`
+        const response2 = [] 
+        let coords = [
+            {
+                x : "",
+                y : ""
+            }
+        ]           
+        for (let i = 0; i < response.length; i++) {
+           //Extract from the response código causa and encoded comuna
+            
+            //console.log("la hola ",hola)
+            console.log(data[1][0])
+            response2.push(await client.query(sql,[data[1][0], response[i].rows[0]["cód_causa"]]))
+            for (let j = 0; j < response2[i].rows.length; j++) {
+                coords.push({
+                    x : response2[i].rows[j]["x"],
+                    y : response2[i].rows[j]["y"]
+                })
+            }
+            //response2.push(await client.query(sql,[data[1][0]]))
+        }
+        //quitar vacios de coords
+        coords.shift()
+        console.log(coords)
+        //const response2 = await client.query(sql, [comuna])
+        // pass all the data to the frontend
+        res.send({dp1 : dp1, coords : coords})
 
         // const values = safe["id"];
         // const response = await client.query(SQLquery,values);       
@@ -290,17 +326,42 @@ app.post("/query3", (req, res, next) => {
         safe = data;
         let dp1 = {}
         const response = []
-        
-
+        console.log(data)
         for (let i = 0; i < output4.length; i++) {
             response.push(await client.query(SQLquery1, [output4[i]]))
             const output = (response[i].rows[0]["ubicación"])
-            dp1[output] = data["dp"][i+1] 
+            dp1[output] = data[0]["dp"][i+1]
         }
         //console.log(dp1)
-        res.send({dp1})
-                  
-                                
+        
+        const sql1 = `SELECT 
+                            x,y
+                        FROM
+                            siniestros_2018
+                        WHERE
+                            cód_ubica = $1
+                        AND 
+                            encoded_comuna = $2`
+        const response2 = []
+        //extraer coordenadas de cada comuna de data
+        //console.log(data[1][0])
+        let coords = [
+            {
+                x : "",
+                y : ""
+            }
+        ]  
+        for(let i = 0; i < output4.length; i++){
+            response2.push(await client.query(sql1, [data[1][0],output4[i]]))
+            for(let j = 0; j < response2[i].rows.length; j++){
+                coords.push({
+                    x : response2[i].rows[j]["x"],
+                    y : response2[i].rows[j]["y"]
+                })
+            }
+        }
+        coords.shift()
+        res.send({dp1 : dp1, coords : coords})                      
     })
     .catch(error => {
         console.log(error);
@@ -516,17 +577,40 @@ app.post("/query7", (req, res, next) => {
         safe = data;
         let dp1 = {}
         const response = []
-        
-        
+        console.log(data)
+        console.log(data[0]["dp"])
         for (let i = 0; i < output4.length; i++) {
             response.push(await client.query(SQLquery1, [output4[i]]))
             const output = (response[i].rows[0]["estado_cal"])
-            dp1[output] = data["dp"][i+1] 
+            dp1[output] = data[0]["dp"][i+1] 
         }
         //console.log(dp1)
-        res.send({dp1})
-                  
-                                
+        let sql = `SELECT 
+                        x,y
+                    FROM
+                        siniestros_2018
+                    WHERE
+                        encoded_comuna = $1
+                    AND
+                        cód__tipo = $2`
+        let response2 = []
+        let coords = [
+            {
+                x : "",
+                y : ""
+            }
+        ]  
+        for (let i = 0; i < output4.length; i++) {
+            response2.push(await client.query(sql, [data[1][0], output4[i]]))
+            for (let j = 0; j < response2[i].rows.length; j++) {
+                coords.push({
+                    x : response2[i].rows[j]["x"],
+                    y : response2[i].rows[j]["y"]
+                })
+            }
+        }
+        coords.shift()
+        res.send({dp1 : dp1, coords : coords})               
     })
     .catch(error => {
         console.log(error);
@@ -682,6 +766,16 @@ app.post("/query10", (req, res, next) => {
         console.log(error);
     });
 
+});
+
+app.post("/query11", async (req, res, next) => {
+    client.connect()
+    let safe = {}
+    res.header("Access-Control-Allow-Origin","*");
+    const { datos } = req.body;
+    const sql = `SELECT x, y, comuna FROM siniestros_2018 WHERE encoded_comuna = $1`
+    let response = await client.query(sql, [datos])
+    console.log(response.rows)
 });
 
 app.listen(port,()=>{
