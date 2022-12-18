@@ -161,6 +161,7 @@ app.post("/query0", (req, res, next) => {
 
 app.post("/query1", (req, res, next) => {
     client.connect()
+    console.log("executed")
     let safe = {}
     res.header("Access-Control-Allow-Origin","*");
     const { datos, comuna } = req.body;
