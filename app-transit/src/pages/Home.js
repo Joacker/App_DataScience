@@ -1,10 +1,12 @@
 import React from 'react';
-
+import MapView from '../components/MapView.js';
 function Home() {
     return(
-        <div className='home'>
-            <h1>Home</h1>
+        <div>
+            <MapView/>
         </div>
+        
+       
     )
 }
 
