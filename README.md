@@ -122,7 +122,7 @@ El response de la query corresponde a las causas más comunes dada la comuna que
 
 <h3 align="center">Video solicitado por la actividad</h3>
 
-## *Video:*
+## *Video del algoritmo de la aplicación con K-Vecinos:*
 
 Se recomienda para una mejor visualización, colocar la opción de calidad y dar click en 1080p60.
 
