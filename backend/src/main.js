@@ -116,8 +116,8 @@ app.post("/query0", (req, res, next) => {
             response2.push(await client.query(sql,[data[1][0], response[i].rows[0]["cód_causa"]]))
             for (let j = 0; j < response2[i].rows.length; j++) {
                 coords.push({
-                    x : response2[i].rows[j]["x"],
-                    y : response2[i].rows[j]["y"]
+                    y : response2[i].rows[j]["x"],
+                    x : response2[i].rows[j]["y"]
                 })
             }
             //response2.push(await client.query(sql,[data[1][0]]))
@@ -355,8 +355,8 @@ app.post("/query3", (req, res, next) => {
             response2.push(await client.query(sql1, [data[1][0],output4[i]]))
             for(let j = 0; j < response2[i].rows.length; j++){
                 coords.push({
-                    x : response2[i].rows[j]["x"],
-                    y : response2[i].rows[j]["y"]
+                    y : response2[i].rows[j]["x"],
+                    x : response2[i].rows[j]["y"]
                 })
             }
         }
@@ -604,8 +604,8 @@ app.post("/query7", (req, res, next) => {
             response2.push(await client.query(sql, [data[1][0], output4[i]]))
             for (let j = 0; j < response2[i].rows.length; j++) {
                 coords.push({
-                    x : response2[i].rows[j]["x"],
-                    y : response2[i].rows[j]["y"]
+                    y : response2[i].rows[j]["x"],
+                    x : response2[i].rows[j]["y"]
                 })
             }
         }
