@@ -115,12 +115,13 @@ Response:
 
 El response de la query corresponde a las causas más comunes dada la comuna que se está analizando.
 
+---
 
 
 
 
 
-<h3 align="center">Video solicitado por la actividad</h3>
+<h3 align="center">Video de la actividad</h3>
 
 ## *Video del algoritmo de la aplicación con K-Vecinos:*
 
