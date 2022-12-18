@@ -51,7 +51,7 @@ def query0():
         "id":lex_numbers
     }
 
-    return jsonify(message)
+    return jsonify(message,x)
 
 # COMUNA CON MAYOR PROBABILIDAD DE X FALLECIDOS - POS 1
 @app.route('/query1', methods=['POST'])
@@ -120,7 +120,7 @@ def query3():
         "id":lex_numbers
     }
 
-    return jsonify(message)
+    return jsonify(message,x)
 
 # ESTADO DE CALZADA EN FUNCIÓN DE X FALLECIDOS - POS 4
 @app.route('/query4', methods=['POST'])
@@ -212,7 +212,7 @@ def query7():
         "id":lex_numbers
     }
 
-    return jsonify(message)
+    return jsonify(message,x)
 
 # EN FUNCIÓN DEL MES DETERMINA CAUSA
 @app.route('/query8', methods=['POST'])
