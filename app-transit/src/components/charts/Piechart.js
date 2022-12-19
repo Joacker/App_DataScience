@@ -11,7 +11,7 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
 
     return (
         <text x={x} y={y} fill="white" textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central">
-            {`${(percent * 100).toFixed(0)}%`}
+            {`${(percent * 100).toFixed(1)}%`}
         </text>
     );
 };
@@ -32,7 +32,7 @@ export default class Torta extends PureComponent {
                             cy="50%"
                             labelLine={false}
                             label={renderCustomizedLabel}
-                            outerRadius={150}
+                            outerRadius={180}
                             fill="#8884d8"
                             dataKey="value"
                         >
@@ -41,7 +41,6 @@ export default class Torta extends PureComponent {
                             ))}
                         </Pie>
                         <Legend payload={data.name}>
-
                         </Legend>
                     </PieChart>
                 </ResponsiveContainer>

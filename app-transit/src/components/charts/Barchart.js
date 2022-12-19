@@ -26,7 +26,7 @@ export default class Barchart extends PureComponent {
                         <YAxis />
                         <Tooltip />
                         <Legend />
-                        <Bar name="Citas" dataKey="value" fill="#82ca9d" />
+                        <Bar name="name" dataKey="value" fill="#82ca9d" />
                     </BarChart>
                 </ResponsiveContainer>
 
