@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Container } from 'react-bootstrap';
 import MapView from '../components/MapView.js';
 import axios from "axios";
+import Piechart from '../components/charts/Piechart.js';
+
 
 function Reports() {
 
@@ -45,7 +47,7 @@ function Reports() {
                         type="text"
                         placeholder="Ej: 4"
                         value={input_value}
-                        onChange={(event,x=0)=>{handleChangeInput(event,x)}}
+                        onChange={(event,x=1)=>{handleChangeInput(event,x)}}
                     />
                     <input type="submit" value="Enviar" />
                 </form>
@@ -59,8 +61,11 @@ function Reports() {
                 </Container>
             }
             {loadedChart && 
-                <h1>hola</h1>            
+                <h1>hola</h1>    
+                        
             }
+            <Piechart data={data} >
+                </Piechart>
             {/* <MapView /> */}
         </div>
     )

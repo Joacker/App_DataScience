@@ -7,6 +7,8 @@ import { Container } from 'react-bootstrap';
 import MapView from '../components/MapView.js';
 import axios from "axios";
 import{Route,Routes,useNavigate} from 'react-router-dom'
+import Piechart from '../components/charts/Piechart.js';
+import ActivePie from '../components/charts/ActivePie';
 const Home = () => {
 
     const navigate = useNavigate();
@@ -28,12 +30,19 @@ const Home = () => {
     let [dato, setDato] = useState();
     let [query_num, setQueryNum] = useState();
     let [input_value, setInputValue] = useState();
+	let [input_value2, setInputValue2] = useState();
     let [loading, setLoading] = useState(false);
     let [loadedChart, setLoadedChart] = useState(false);
+	let [data,setData] = useState();
 
     const handleChangeInput = (event,x) => {
         const result = event.target.value.replace(/\D/g, '');
         setInputValue(result);
+        setQueryNum(x)
+    };
+	const handleChangeInput2 = (event,x) => {
+        const result = event.target.value.replace(/\D/g, '');
+        setInputValue2(result);
         setQueryNum(x)
     };
 
@@ -42,6 +51,30 @@ const Home = () => {
         setLoading(true)
         setLoadedChart(false);
         axios.post("http://localhost:8000/query" + query_num, { datos: [input_value] })
+            .then(res => {
+                setLoading(false);
+				let response = []
+                setLoading(false);
+                if (query_num != 0 || query_num != 3 || query_num != 7) {
+                    Object.entries(res.data.dp1).map(([key, value]) => {
+                        if (value != 0) {
+                            response.push({ name: key, value: value })
+                        }
+                    })
+                }
+				setData(response)
+                setDato(res.data)
+                console.log("que es esto?: ",dato)
+                setLoadedChart(true);
+            })
+            .catch(err => console.log(err))
+    }
+
+	const submitQuery2 = (e) => {
+        e.preventDefault();
+        setLoading(true)
+        setLoadedChart(false);
+        axios.post("http://localhost:8000/query" + query_num, { datos: [input_value,input_value2] })
             .then(res => {
                 setLoading(false);
                 setDato(res.data)
@@ -83,7 +116,7 @@ const Home = () => {
 			<Modal
 				estado={estadoModal1}
 				cambiarEstado={cambiarEstadoModal1}
-				titulo="Ventana 1"
+				titulo="CAUSA EN FUNCIÓN DE COMUNA"
 				mostrarHeader={true}
 				mostrarOverlay={true}
 				posicionModal={"center"}
@@ -94,8 +127,9 @@ const Home = () => {
                 <Contenido>
                         <div>
                     <Container>
+						<h1></h1>
                         <form onSubmit={submitQuery}>
-                            <label>Cantidad de fallecidos:</label>
+                            <label>Ingrese codigo de una comuna:</label>
                             <input
                                 name="input"
                                 type="text"
@@ -137,7 +171,7 @@ const Home = () => {
 			<Modal
 				estado={estadoModal2}
 				cambiarEstado={cambiarEstadoModal2}
-				titulo="Ventana 2"
+				titulo="COMUNA CON MAYOR PROBABILIDAD DE X FALLECIDOS "
 				mostrarHeader={true}
 				mostrarOverlay={true}
 				posicionModal={"center"}
@@ -174,9 +208,10 @@ const Home = () => {
                             <span></span>
                           </p>
                         ))}
-                   
-                
-                    
+					<div>
+					<Piechart data={data} >
+                </Piechart>
+					</div>
                     </div> 
                     }
                 </div>
@@ -187,22 +222,50 @@ const Home = () => {
 			<Modal
 				estado={estadoModal3}
 				cambiarEstado={cambiarEstadoModal3}
-				titulo="Ventana 3"
+				titulo="COMUNA MÁS PROBABLE PARA CIERTA CAUSA"
 				mostrarHeader={true}
 				mostrarOverlay={true}
 				posicionModal={"center"}
 				padding={'20px'}
 			>
 				<Contenido>
-					<h1>
-						Ventana Modal 3
-					</h1>
-					<p>
-						Reutilizable y con opciones de personalización
-					</p>
-					<Boton onClick = {() => cambiarEstadoModal3(!estadoModal3)}>
-						Aceptar
-					</Boton>
+                        <div>
+                    <Container>
+                        <form onSubmit={submitQuery}>
+                            <label>Codigo de causa de accidente:</label>
+                            <input
+                                name="input"
+                                type="text"
+                                placeholder="Ej: 4"
+                                value={input_value}
+                                onChange={(event,x=2)=>{handleChangeInput(event,x)}}
+                            />
+                            <input type="submit" value="Enviar" />
+                        </form>
+                    </Container>
+                    {loading &&
+                        <Container>
+                            <div className='loaderContainer'>
+                                <div className='spinner'>
+                                </div>
+                            </div>
+                        </Container>
+                    }
+                    {loadedChart &&
+                    <div>
+                        {Object.keys(dato.dp1).map((key, i) => (
+                          <p key={i}>
+                            <span style={{'font-size':15}} >{key} - {dato.dp1[key]}</span>
+                            <span></span>
+                          </p>
+                        ))}
+						<div>
+						<ActivePie data={data}>
+                </ActivePie>
+						</div>
+                    </div> 
+                    }
+                </div>
 				</Contenido>
 			</Modal>
 
@@ -210,22 +273,61 @@ const Home = () => {
 			<Modal
 				estado={estadoModal4}
 				cambiarEstado={cambiarEstadoModal4}
-				titulo="Ventana 4"
+				titulo="TIPO DE UBICACIÓN EN FUNCIÓN DEL TIPO DE ACCIDENTE Y COMUNA"
 				mostrarHeader={true}
 				mostrarOverlay={true}
 				posicionModal={"center"}
 				padding={'20px'}
 			>
 				<Contenido>
-					<h1>
-						Ventana Modal 4
-					</h1>
-					<p>
-						Reutilizable y con opciones de personalización
-					</p>
-					<Boton onClick = {() => cambiarEstadoModal4(!estadoModal4)}>
-						Aceptar
-					</Boton>
+                        <div>
+                    <Container>
+                        <form onSubmit={submitQuery2}>
+                            <label>Codigo de causa de accidente:</label>
+                            <input
+                                name="input"
+                                type="text"
+                                placeholder="Ej: 4"
+                                value={input_value}
+                                onChange={(event,x=3)=>{handleChangeInput(event,x)}}
+                            />
+							<p>-</p>
+							<label>Codigo de la comuna:</label>
+                            <input
+                                name="input"
+                                type="text"
+                                placeholder="Ej: 4"
+                                value={input_value2}
+                                onChange={(event,x=3)=>{handleChangeInput2(event,x)}}
+                            />
+                            <input type="submit" value="Enviar" />
+                        </form>
+                    </Container>
+                    {loading &&
+                        <Container>
+                            <div className='loaderContainer'>
+                                <div className='spinner'>
+                                </div>
+                            </div>
+                        </Container>
+                    }
+                    {loadedChart &&
+                    <div>
+                        {Object.keys(dato.dp1).map((key, i) => (
+                          <p key={i}>
+                            <span style={{'font-size':15}} >{key} - {dato.dp1[key]}</span>
+                            <span></span>
+                          </p>
+                        ))}
+						<div>
+                    	<MapView datito={dato}/>
+                	</div>
+                    </div> 
+
+					
+
+					}
+                </div>
 				</Contenido>
 			</Modal>
 
@@ -233,22 +335,54 @@ const Home = () => {
 			<Modal
 				estado={estadoModal5}
 				cambiarEstado={cambiarEstadoModal5}
-				titulo="Ventana 5"
+				titulo="ESTADO DE CALZADA EN FUNCIÓN DE X FALLECIDOS"
 				mostrarHeader={true}
 				mostrarOverlay={true}
 				posicionModal={"center"}
 				padding={'20px'}
 			>
 				<Contenido>
-					<h1>
-						Ventana Modal 5
-					</h1>
-					<p>
-						Reutilizable y con opciones de personalización
-					</p>
-					<Boton onClick = {() => cambiarEstadoModal5(!estadoModal5)}>
-						Aceptar
-					</Boton>
+                        <div>
+                    <Container>
+                        <form onSubmit={submitQuery}>
+                            <label>Cantidad de fallecidos:</label>
+                            <input
+                                name="input"
+                                type="text"
+                                placeholder="Ej: 4"
+                                value={input_value}
+                                onChange={(event,x=4)=>{handleChangeInput(event,x)}}
+                            />
+							<p>-</p>
+                            <input type="submit" value="Enviar" />
+                        </form>
+                    </Container>
+                    {loading &&
+                        <Container>
+                            <div className='loaderContainer'>
+                                <div className='spinner'>
+                                </div>
+                            </div>
+                        </Container>
+                    }
+                    {loadedChart &&
+                    <div>
+                        {Object.keys(dato.dp1).map((key, i) => (
+                          <p key={i}>
+                            <span style={{'font-size':15}} >{key} - {dato.dp1[key]}</span>
+                            <span></span>
+                          </p>
+                        ))}
+						<div>
+					<Piechart data={data} >
+                </Piechart>
+					</div>
+                    </div> 
+					
+					
+
+					}
+                </div>
 				</Contenido>
 			</Modal>
 
@@ -256,22 +390,54 @@ const Home = () => {
 			<Modal
 				estado={estadoModal6}
 				cambiarEstado={cambiarEstadoModal6}
-				titulo="Ventana 6"
+				titulo="CLIMA EN FUNCIÓN DE X FALLECIDOS"
 				mostrarHeader={true}
 				mostrarOverlay={true}
 				posicionModal={"center"}
 				padding={'20px'}
 			>
 				<Contenido>
-					<h1>
-						Ventana Modal 6
-					</h1>
-					<p>
-						Reutilizable y con opciones de personalización
-					</p>
-					<Boton onClick = {() => cambiarEstadoModal6(!estadoModal6)}>
-						Aceptar
-					</Boton>
+                        <div>
+                    <Container>
+                        <form onSubmit={submitQuery}>
+                            <label>Cantidad de fallecidos:</label>
+                            <input
+                                name="input"
+                                type="text"
+                                placeholder="Ej: 4"
+                                value={input_value}
+                                onChange={(event,x=5)=>{handleChangeInput(event,x)}}
+                            />
+							<p>-</p>
+                            <input type="submit" value="Enviar" />
+                        </form>
+                    </Container>
+                    {loading &&
+                        <Container>
+                            <div className='loaderContainer'>
+                                <div className='spinner'>
+                                </div>
+                            </div>
+                        </Container>
+                    }
+                    {loadedChart &&
+                    <div>
+                        {Object.keys(dato.dp1).map((key, i) => (
+                          <p key={i}>
+                            <span style={{'font-size':15}} >{key} - {dato.dp1[key]}</span>
+                            <span></span>
+                          </p>
+                        ))}
+						<div>
+						<ActivePie data={data}>
+                </ActivePie>
+						</div>
+                    </div> 
+
+					
+
+					}
+                </div>
 				</Contenido>
 			</Modal>
 
@@ -279,22 +445,54 @@ const Home = () => {
 			<Modal
 				estado={estadoModal7}
 				cambiarEstado={cambiarEstadoModal7}
-				titulo="Ventana 7"
+				titulo="CAUSA EN FUNCIÓN DE X FALLECIDOS"
 				mostrarHeader={true}
 				mostrarOverlay={true}
 				posicionModal={"center"}
 				padding={'20px'}
 			>
 				<Contenido>
-					<h1>
-						Ventana Modal 7
-					</h1>
-					<p>
-						Reutilizable y con opciones de personalización
-					</p>
-					<Boton onClick = {() => cambiarEstadoModal7(!estadoModal7)}>
-						Aceptar
-					</Boton>
+                        <div>
+                    <Container>
+                        <form onSubmit={submitQuery}>
+                            <label>Cantidad de fallecidos:</label>
+                            <input
+                                name="input"
+                                type="text"
+                                placeholder="Ej: 4"
+                                value={input_value}
+                                onChange={(event,x=6)=>{handleChangeInput(event,x)}}
+                            />
+							<p>-</p>
+                            <input type="submit" value="Enviar" />
+                        </form>
+                    </Container>
+                    {loading &&
+                        <Container>
+                            <div className='loaderContainer'>
+                                <div className='spinner'>
+                                </div>
+                            </div>
+                        </Container>
+                    }
+                    {loadedChart &&
+                    <div>
+                        {Object.keys(dato.dp1).map((key, i) => (
+                          <p key={i}>
+                            <span style={{'font-size':15}} >{key} - {dato.dp1[key]}</span>
+                            <span></span>
+                          </p>
+                        ))}
+						<div>
+						<ActivePie data={data}>
+                </ActivePie>
+						</div>
+                    </div> 
+
+					
+
+					}
+                </div>
 				</Contenido>
 			</Modal>
 
@@ -302,22 +500,58 @@ const Home = () => {
 			<Modal
 				estado={estadoModal8}
 				cambiarEstado={cambiarEstadoModal8}
-				titulo="Ventana 8"
+				titulo="ESTADO DE LA CALLE EN RELACIÓN A UNA COMUNA Y UN TIPO DE CALZADA"
 				mostrarHeader={true}
 				mostrarOverlay={true}
 				posicionModal={"center"}
 				padding={'20px'}
 			>
 				<Contenido>
-					<h1>
-						Ventana Modal 8
-					</h1>
-					<p>
-						Reutilizable y con opciones de personalización
-					</p>
-					<Boton onClick = {() => cambiarEstadoModal8(!estadoModal8)}>
-						Aceptar
-					</Boton>
+                        <div>
+                    <Container>
+                        <form onSubmit={submitQuery2}>
+                            <label>codigo comuna:</label>
+                            <input
+                                name="input"
+                                type="text"
+                                placeholder="Ej: 4"
+                                value={input_value}
+                                onChange={(event,x=7)=>{handleChangeInput(event,x)}}
+                            />
+							<p>-</p>
+							<label>Codigo de tipo de calzada:</label>
+                            <input
+                                name="input"
+                                type="text"
+                                placeholder="Ej: 4"
+                                value={input_value2}
+                                onChange={(event,x=7)=>{handleChangeInput2(event,x)}}
+                            />
+                            <input type="submit" value="Enviar" />
+                        </form>
+                    </Container>
+                    {loading &&
+                        <Container>
+                            <div className='loaderContainer'>
+                                <div className='spinner'>
+                                </div>
+                            </div>
+                        </Container>
+                    }
+                    {loadedChart &&
+                    <div>
+                        {Object.keys(dato.dp1).map((key, i) => (
+                          <p key={i}>
+                            <span style={{'font-size':15}} >{key} - {dato.dp1[key]}</span>
+                            <span></span>
+                          </p>
+                        ))}
+						<div>
+                    	<MapView datito={dato}/>
+                	</div>
+                    </div> 
+					}
+                </div>
 				</Contenido>
 			</Modal>
 
@@ -325,22 +559,54 @@ const Home = () => {
 			<Modal
 				estado={estadoModal9}
 				cambiarEstado={cambiarEstadoModal9}
-				titulo="Ventana 9"
+				titulo="EN FUNCIÓN DEL MES DETERMINA CAUSA"
 				mostrarHeader={true}
 				mostrarOverlay={true}
 				posicionModal={"center"}
 				padding={'20px'}
 			>
 				<Contenido>
-					<h1>
-						Ventana Modal 9
-					</h1>
-					<p>
-						Reutilizable y con opciones de personalización
-					</p>
-					<Boton onClick = {() => cambiarEstadoModal9(!estadoModal9)}>
-						Aceptar
-					</Boton>
+                        <div>
+                    <Container>
+                        <form onSubmit={submitQuery}>
+                            <label>Elija un mes:</label>
+                            <input
+                                name="input"
+                                type="text"
+                                placeholder="Ej: 4"
+                                value={input_value}
+                                onChange={(event,x=8)=>{handleChangeInput(event,x)}}
+                            />
+							<p>-</p>
+                            <input type="submit" value="Enviar" />
+                        </form>
+                    </Container>
+                    {loading &&
+                        <Container>
+                            <div className='loaderContainer'>
+                                <div className='spinner'>
+                                </div>
+                            </div>
+                        </Container>
+                    }
+                    {loadedChart &&
+                    <div>
+                        {Object.keys(dato.dp1).map((key, i) => (
+                          <p key={i}>
+                            <span style={{'font-size':15}} >{key} - {dato.dp1[key]}</span>
+                            <span></span>
+                          </p>
+                        ))}
+						<div>
+					<Piechart data={data} >
+                </Piechart>
+					</div>
+                    </div> 
+
+					
+
+					}
+                </div>
 				</Contenido>
 			</Modal>
 
@@ -348,22 +614,54 @@ const Home = () => {
 			<Modal
 				estado={estadoModal10}
 				cambiarEstado={cambiarEstadoModal10}
-				titulo="Ventana 10"
+				titulo="EN FUNCIÓN DEL MES DETERMINA COMUNA"
 				mostrarHeader={true}
 				mostrarOverlay={true}
 				posicionModal={"center"}
 				padding={'20px'}
 			>
 				<Contenido>
-					<h1>
-						Ventana Modal 10
-					</h1>
-					<p>
-						Reutilizable y con opciones de personalización
-					</p>
-					<Boton onClick = {() => cambiarEstadoModal10(!estadoModal10)}>
-						Aceptar
-					</Boton>
+                        <div>
+                    <Container>
+                        <form onSubmit={submitQuery}>
+                            <label>Elija un mes:</label>
+                            <input
+                                name="input"
+                                type="text"
+                                placeholder="Ej: 4"
+                                value={input_value}
+                                onChange={(event,x=9)=>{handleChangeInput(event,x)}}
+                            />
+							<p>-</p>
+                            <input type="submit" value="Enviar" />
+                        </form>
+                    </Container>
+                    {loading &&
+                        <Container>
+                            <div className='loaderContainer'>
+                                <div className='spinner'>
+                                </div>
+                            </div>
+                        </Container>
+                    }
+                    {loadedChart &&
+                    <div>
+                        {Object.keys(dato.dp1).map((key, i) => (
+                          <p key={i}>
+                            <span style={{'font-size':15}} >{key} - {dato.dp1[key]}</span>
+                            <span></span>
+                          </p>
+                        ))}
+						<div>
+						<ActivePie data={data}>
+                </ActivePie>
+						</div>
+                    </div> 
+
+					
+
+					}
+                </div>
 				</Contenido>
 			</Modal>
 
@@ -378,15 +676,47 @@ const Home = () => {
 				padding={'20px'}
 			>
 				<Contenido>
-					<h1>
-						Ventana Modal 11
-					</h1>
-					<p>
-						Reutilizable y con opciones de personalización
-					</p>
-					<Boton onClick = {() => cambiarEstadoModal11(!estadoModal11)}>
-						Aceptar
-					</Boton>
+                        <div>
+                    <Container>
+                        <form onSubmit={submitQuery}>
+                            <label>Elija un mes:</label>
+                            <input
+                                name="input"
+                                type="text"
+                                placeholder="Ej: 4"
+                                value={input_value}
+                                onChange={(event,x=9)=>{handleChangeInput(event,x)}}
+                            />
+							<p>-</p>
+                            <input type="submit" value="Enviar" />
+                        </form>
+                    </Container>
+                    {loading &&
+                        <Container>
+                            <div className='loaderContainer'>
+                                <div className='spinner'>
+                                </div>
+                            </div>
+                        </Container>
+                    }
+                    {loadedChart &&
+                    <div>
+                        {Object.keys(dato.dp1).map((key, i) => (
+                          <p key={i}>
+                            <span style={{'font-size':15}} >{key} - {dato.dp1[key]}</span>
+                            <span></span>
+                          </p>
+                        ))}
+						<div>
+						<ActivePie data={data}>
+                </ActivePie>
+						</div>
+                    </div> 
+
+					
+
+					}
+                </div>
 				</Contenido>
 			</Modal>
 		</div>
