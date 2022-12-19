@@ -62,7 +62,7 @@ Ruta que trae la causa en función de la comuna.
 http://localhost:8000/query0
 ```
 
-Body:
+Request:
 ```JSON
 {
 	"datos":[0]
@@ -114,6 +114,258 @@ Response:
 ```
 
 El response de la query corresponde a las causas más comunes dada la comuna que se está analizando.
+
+MODELO 1 [POST]:
+
+Ruta que trae la probabilidad de fallecidos en función de la comuna.
+```sh
+http://localhost:8000/query1
+```
+
+Request:
+```JSON
+{
+	"datos":[0]
+}
+```
+Response:
+```JSON
+{
+	"dp1": {
+		"CALERA DE TANGO": 0,
+		"CERRILLOS": 0,
+		"LA FLORIDA": 0,
+		"LA GRANJA": 0,
+		"LA PINTANA": 0,
+		"LA REINA": 0,
+		"LAMPA": 0,
+		"LAS CONDES": 0,
+		"LO BARNECHEA": 0,
+		"LO ESPEJO": 0,
+		"LO PRADO": 0,
+		"MACUL": 0,
+		"CERRO NAVIA": 0,
+		"MAIPU": 0,
+		"PADRE HURTADO": 0,
+		"PEDRO AGUIRRE CERDA": 0,
+		"PEÑALOLEN": 0,
+		"PIRQUE": 0,
+		"PROVIDENCIA": 0,
+		"PUDAHUEL": 0,
+		"PUENTE ALTO": 0,
+		"QUILICURA": 0,
+		"QUINTA NORMAL": 0,
+		"COLINA": 0,
+		"RECOLETA": 0,
+		"RENCA": 0,
+		"SAN BERNARDO": 0,
+		"SAN JOAQUIN": 0.16666666666666666,
+		"SAN MIGUEL": 0,
+		"SAN RAMON": 0,
+		"SANTIAGO": 0,
+		"TILTIL": 0,
+		"VITACURA": 0.16666666666666666,
+		"ÑUÑOA": 0,
+		"CONCHALI": 0.16666666666666666,
+		"EL BOSQUE": 0,
+		"ESTACION CENTRAL": 0,
+		"HUECHURABA": 0.3333333333333333,
+		"INDEPENDENCIA": 0,
+		"LA CISTERNA": 0.16666666666666666
+	}
+}
+```
+MODELO 2 [POST]:
+
+Ruta que trae la probabilidad de comuna más probable dada una causa.
+```sh
+http://localhost:8000/query2
+```
+Request:
+```json
+{
+	"datos":[0]
+}
+
+```
+Response:
+```json
+{
+	"dp1": {
+		"CALERA DE TANGO": 0,
+		"CERRILLOS": 0.05263157894736842,
+		"LA FLORIDA": 0,
+		"LA GRANJA": 0.05263157894736842,
+		"LA PINTANA": 0,
+		"LA REINA": 0,
+		"LAMPA": 0.15789473684210525,
+		"LAS CONDES": 0,
+		"LO BARNECHEA": 0,
+		"LO ESPEJO": 0.10526315789473684,
+		"LO PRADO": 0,
+		"MACUL": 0,
+		"CERRO NAVIA": 0,
+		"MAIPU": 0,
+		"PADRE HURTADO": 0,
+		"PEDRO AGUIRRE CERDA": 0,
+		"PEÑALOLEN": 0,
+		"PIRQUE": 0.05263157894736842,
+		"PROVIDENCIA": 0,
+		"PUDAHUEL": 0,
+		"PUENTE ALTO": 0,
+		"QUILICURA": 0,
+		"QUINTA NORMAL": 0,
+		"COLINA": 0.05263157894736842,
+		"RECOLETA": 0,
+		"RENCA": 0,
+		"SAN BERNARDO": 0,
+		"SAN JOAQUIN": 0.15789473684210525,
+		"SAN MIGUEL": 0,
+		"SAN RAMON": 0,
+		"SANTIAGO": 0,
+		"TILTIL": 0.10526315789473684,
+		"VITACURA": 0.10526315789473684,
+		"ÑUÑOA": 0.05263157894736842,
+		"CONCHALI": 0.05263157894736842,
+		"EL BOSQUE": 0.05263157894736842,
+		"ESTACION CENTRAL": 0,
+		"HUECHURABA": 0,
+		"INDEPENDENCIA": 0,
+		"LA CISTERNA": 0
+	}
+}
+```
+
+MODELO 3 [POST]:
+
+Ruta que trae la probabilidad de ubicación (descripción de la vía) más probable dada una comuna y el tipo de accidente.
+
+Request:
+```json
+{
+	"datos":[1,0]
+}
+```
+Response:
+```json
+{
+	"dp1": {
+		"TRAMO DE VIA RECTA": 0.7142857142857143,
+		"CRUCE CON SEMAFORO FUNCIONANDO": 0,
+		"CRUCE CON SEMAFORO APAGADO": 0,
+		"CRUCE REGULADO POR CARABINERO": 0,
+		"CRUCE CON SEÑAL PARE": 0,
+		"CRUCE CON SEÑAL CEDA EL PASO": 0,
+		"CRUCE SIN SEÑALIZACION": 0,
+		"TRAMO DE VIA CURVA HORIZONTAL": 0,
+		"ENLACE A NIVEL": 0.07142857142857142,
+		"ENLACE A DESNIVEL": 0,
+		"ACCESO NO HABILITADO": 0,
+		"ROTONDA": 0,
+		"PLAZA DE PEAJE": 0,
+		"OTROS NO CONSIDERADOS": 0.21428571428571427,
+		"TRAMO DE VIA CURVA VERTICAL": 0,
+		"ACERA O BERMA": 0,
+		"TUNEL": 0
+	},
+	"coords": [
+		{
+			"y": "-70.708321",
+			"x": "-33.48457"
+		},
+		{
+			"y": "-70.723549",
+			"x": "-33.489361"
+		},
+		{
+			"y": "-70.726959",
+			"x": "-33.492695"
+		},
+		{
+			"y": "-70.707016",
+			"x": "-33.531132"
+		},
+		{
+			"y": "-70.71843",
+			"x": "-33.526939"
+		}
+}
+```
+MODELO 4 [POST]:
+Ruta que trae la probabilidad del estado de la calzada más probable dada una comuna y el tipo de accidente.
+Request:
+```json
+{
+	"datos":[0]
+}
+```
+Response:
+```json
+{
+	"dp1": {
+		"BUENO": 0.9473684210526315,
+		"REGULAR": 0.05263157894736842,
+		"MALO": 0
+	}
+}
+```
+MODELO 5 [POST]:
+
+Ruta que trae la probabilidad del clima más probable dada una muestra de fallecidos.
+
+Request:
+```json
+{
+	"datos":[25]
+}
+```
+Response:
+```json
+{
+	"dp1": {
+		"DESPEJADO": 0.8947368421052632,
+		"NUBLADO": 0.05263157894736842,
+		"LLUVIA": 0,
+		"LLOVIZNA": 0.05263157894736842,
+		"NEBLINA": 0,
+		"NIEVE": 0
+	}
+}
+```
+MODELO 6 [POST]:
+
+Ruta que trae probabilidad de la causa más probable dada una muestra de fallecidos.
+
+Request:
+```json
+{
+	"datos":[25]
+}
+```
+
+Response:
+```json
+{
+	"dp1": {
+		"DESOBEDIENCIA A SEÑALIZACION": 0,
+		"DEFICIENCIAS VIALES": 0,
+		"FALLAS MECANICAS": 0,
+		"CAUSAS NO DETERMINADAS": 0,
+		"OTRAS CAUSAS": 1,
+		"IMPRUDENCIA DEL PEATON": 0,
+		"IMPRUDENCIA DEL PASAJERO": 0,
+		"ALCOHOL EN CONDUCTOR": 0,
+		"ALCOHOL EN PEATON": 0,
+		"ALCOHOL EN PASAJERO": 0,
+		"VELOCIDAD IMPRUDENTE": 0,
+		"DROGAS Y/O FATIGA EN CONDUCTOR": 0,
+		"PERDIDA CONTROL VEHICULO": 0
+	}
+}
+```
+
+
+
 
 ---
 
