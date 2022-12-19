@@ -1,7 +1,7 @@
-<h1 align="center">
+<h2 align="center">
   <img src="https://raw.githubusercontent.com/Joacker/App_DataScience/main/images/app_diagram.png">
   <br>
-</h1>
+</h2>
 
 <h1 align="center">App Data Science</h2>
 <h3 align="center">Docker, Postgres, Python, React and Nodejs Deploy for Data Science Subject</h3>
@@ -365,8 +365,16 @@ Response:
 }
 ```
 
+Las request que son las consultas, son enviadas desde la interfaz por el cliente hácia el servidor, éste último actúa como un controlador, es decir, se encarga de mediar entre la base de datos y la inteligencia artifical con el dataset cargado.
 
+Por lo que al momento de consultar al back éste último consulta a la IA por la información a la cúal se le solicita, luego la IA le entrega la información al servidor nuevamente y el backend adjunta la información procedente de los datos normalizados de la IA, alojados las cadenas de texto en la base de datos SQL (Postgres). Llegando así a la interfaz o front de la aplicación.
 
+A continuación se tiene el siguiente diagrama de flujo:
+
+<h2 align="center">
+  <img src="https://raw.githubusercontent.com/Joacker/App_DataScience/main/images/diagrama.png">
+  <br>
+</h2>
 
 ---
 
