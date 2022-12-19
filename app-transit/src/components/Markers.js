@@ -4,17 +4,20 @@ import { Icon } from 'leaflet'
 import {VenueLocationIcon} from './IconLocation'
 
 
-const Markers = () => {
+const Markers = ({dato2}) => {
   const datos = [{ x: 1, y: 2},
     { x: 2, y: 2},
     { x: 3, y: 2}
   ]
   return (
-    <div>
-      {datos.map( datos => (
-        <Marker position={{lat: datos.x, lng: datos.y}} 
+    <div>{
+      Object.keys(dato2.coords).map((key, i) => (
+        <p key={i}>
+          <Marker position={{lat: dato2.coords[key].x, lng: dato2.coords[key].y}} 
               icon={VenueLocationIcon} />
-      ))}
+        </p>))
+      /*dato2.map( dato2 => (
+      ))*/}
       
       
     </div>

@@ -9,13 +9,14 @@ const Modal = ({
         mostrarHeader,
         mostrarOverlay,
         posicionModal,
-        padding
+        padding,
+        scrollable
 }) => {
     return (
         <>
             {estado && 
-                <Overlay mostrarOverlay={mostrarOverlay} posicionModal={posicionModal}>
-                    <ContenedorModal padding={padding}>
+                <Overlay mostrarOverlay={mostrarOverlay} posicionModal={posicionModal} scrollable={scrollable}>
+                    <ContenedorModal padding={padding} >
                         {mostrarHeader && 
                             <EncabezadoModal>
                                 <h3>
@@ -38,7 +39,7 @@ const Modal = ({
 };
 
 export default Modal;
-
+{/* display: center; */}
 const Overlay = styled.div`
     width: 100vw;
     height: 100vh;
@@ -47,9 +48,9 @@ const Overlay = styled.div`
     left: 0;
     background: ${props => props.mostrarOverlay ? 'rgba(0, 0, 0, .5)' : 'transparent'} ;
     padding: 40px;
-    display: flex;
     align-items: ${props => props.posicionModal ? props.posicionModal : 'center'};
     justify-content: center;
+    overflow-y:scroll
 `;
 
 const ContenedorModal = styled.div`
@@ -69,7 +70,7 @@ const EncabezadoModal = styled.div`
   margin-bottom: 20px;
   padding-bottom: 20px;
   border-bottom: 1px solid #E8E8E8;
-
+  overflow-y:auto;
   h3 {
     font-weight: 500;
     font-size: 16px;

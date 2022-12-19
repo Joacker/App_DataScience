@@ -1,9 +1,16 @@
-import React, {useState} from 'react';
+
 import './index.css';
 import Modal from '../components/Modal';
 import styled from 'styled-components';
-
+import React, { useState, useEffect } from 'react';
+import { Container } from 'react-bootstrap';
+import MapView from '../components/MapView.js';
+import axios from "axios";
+import{Route,Routes,useNavigate} from 'react-router-dom'
 const Home = () => {
+
+    const navigate = useNavigate();
+
 	const [estadoModal1, cambiarEstadoModal1] = useState(false);
 	const [estadoModal2, cambiarEstadoModal2] = useState(false);
 	const [estadoModal3, cambiarEstadoModal3] = useState(false);
@@ -15,6 +22,37 @@ const Home = () => {
 	const [estadoModal9, cambiarEstadoModal9] = useState(false);
 	const [estadoModal10, cambiarEstadoModal10] = useState(false);
 	const [estadoModal11, cambiarEstadoModal11] = useState(false);
+
+    //************************
+    //************************
+    let [dato, setDato] = useState();
+    let [query_num, setQueryNum] = useState();
+    let [input_value, setInputValue] = useState();
+    let [loading, setLoading] = useState(false);
+    let [loadedChart, setLoadedChart] = useState(false);
+
+    const handleChangeInput = (event,x) => {
+        const result = event.target.value.replace(/\D/g, '');
+        setInputValue(result);
+        setQueryNum(x)
+    };
+
+    const submitQuery = (e) => {
+        e.preventDefault();
+        setLoading(true)
+        setLoadedChart(false);
+        axios.post("http://localhost:8000/query" + query_num, { datos: [input_value] })
+            .then(res => {
+                setLoading(false);
+                setDato(res.data)
+                console.log("que es esto?: ",dato)
+                setLoadedChart(true);
+            })
+            .catch(err => console.log(err))
+    }
+
+    //************************
+    //************************
 
 	return (
 		<div>
@@ -50,17 +88,48 @@ const Home = () => {
 				mostrarOverlay={true}
 				posicionModal={"center"}
 				padding={'20px'}
+                scrollable={true}
 			>
-				<Contenido>
-					<h1>
-						Ventana Modal 1
-					</h1>
-					<p>
-						Reutilizable y con opciones de personalización
-					</p>
-					<Boton onClick = {() => cambiarEstadoModal1(!estadoModal1)}>
-						Aceptar
-					</Boton>
+
+                <Contenido>
+                        <div>
+                    <Container>
+                        <form onSubmit={submitQuery}>
+                            <label>Cantidad de fallecidos:</label>
+                            <input
+                                name="input"
+                                type="text"
+                                placeholder="Ej: 4"
+                                value={input_value}
+                                onChange={(event,x=0)=>{handleChangeInput(event,x)}}
+                            />
+                            <input type="submit" value="Enviar" />
+                        </form>
+                    </Container>
+                    {loading &&
+                        <Container>
+                            <div className='loaderContainer'>
+                                <div className='spinner'>
+                                </div>
+                            </div>
+                        </Container>
+                    }
+                    {loadedChart &&
+                    <div>
+                        {Object.keys(dato.dp1).map((key, i) => (
+                          <p key={i}>
+                            <span style={{'font-size':15}} >{key} - {dato.dp1[key]}</span>
+                            <span></span>
+                          </p>
+                        ))}
+                   
+                <div>
+                    <MapView datito={dato}/>
+                </div>
+                    
+                    </div> 
+                    }
+                </div>
 				</Contenido>
 			</Modal>
 			
@@ -75,15 +144,42 @@ const Home = () => {
 				padding={'20px'}
 			>
 				<Contenido>
-					<h1>
-						Ventana Modal 2
-					</h1>
-					<p>
-						Reutilizable y con opciones de personalización
-					</p>
-					<Boton onClick = {() => cambiarEstadoModal2(!estadoModal2)}>
-						Aceptar
-					</Boton>
+                        <div>
+                    <Container>
+                        <form onSubmit={submitQuery}>
+                            <label>Cantidad de fallecidos:</label>
+                            <input
+                                name="input"
+                                type="text"
+                                placeholder="Ej: 4"
+                                value={input_value}
+                                onChange={(event,x=1)=>{handleChangeInput(event,x)}}
+                            />
+                            <input type="submit" value="Enviar" />
+                        </form>
+                    </Container>
+                    {loading &&
+                        <Container>
+                            <div className='loaderContainer'>
+                                <div className='spinner'>
+                                </div>
+                            </div>
+                        </Container>
+                    }
+                    {loadedChart &&
+                    <div>
+                        {Object.keys(dato.dp1).map((key, i) => (
+                          <p key={i}>
+                            <span style={{'font-size':15}} >{key} - {dato.dp1[key]}</span>
+                            <span></span>
+                          </p>
+                        ))}
+                   
+                
+                    
+                    </div> 
+                    }
+                </div>
 				</Contenido>
 			</Modal>
 
