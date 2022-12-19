@@ -405,7 +405,7 @@ app.post("/query4", (req, res, next) => {
             response.push(await client.query(SQLquery, [data["id"][i]]))
             //console.log(response)
             const output = (response[i].rows[0]["estado_cal"])
-            dp1[output] = data["dp"][i]
+            dp1[output] = data["dp"][i+1]
             //console.log(data["dp"][i])
             
         }
